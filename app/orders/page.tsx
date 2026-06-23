@@ -18,6 +18,13 @@ export default async function OrdersPage() {
     ORDER BY o.created_at DESC
   `;
 
+  const orderItems = await sql`
+    SELECT oi.*, m.name as menu_name
+    FROM order_items oi
+    JOIN menus m ON oi.menu_id = m.id
+    WHERE oi.order_id = ANY(${orders.map((o: any) => o.id)})
+  `;
+
   const statusConfig: { [key: string]: { emoji: string; color: string; bg: string } } = {
     '접수': { emoji: '📋', color: 'text-orange-500', bg: 'bg-orange-50' },
     '배달중': { emoji: '🛵', color: 'text-blue-500', bg: 'bg-blue-50' },
@@ -35,8 +42,9 @@ export default async function OrdersPage() {
         </div>
       ) : (
         <div className="space-y-4">
-          {orders.map((order) => {
+          {orders.map((order: any) => {
             const status = statusConfig[order.status] || statusConfig['접수'];
+            const items = orderItems.filter((item: any) => item.order_id === order.id);
             return (
               <div key={order.id} className="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm">
                 <div className="flex justify-between items-center mb-3">
@@ -48,7 +56,18 @@ export default async function OrdersPage() {
                   </span>
                 </div>
                 <h3 className="text-lg font-black text-gray-900">{order.restaurant_name}</h3>
-                <div className="flex justify-between items-center mt-3">
+                
+                {/* 주문 상세 메뉴 */}
+                <div className="mt-3 space-y-1">
+                  {items.map((item: any) => (
+                    <div key={item.id} className="flex justify-between text-sm text-gray-600">
+                      <span>{item.menu_name} x{item.quantity}</span>
+                      <span>{(item.price * item.quantity).toLocaleString()}원</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-50">
                   <p className="text-gray-400 text-sm">주문 #{order.id}</p>
                   <p className="text-orange-500 font-black text-lg">{order.total_price.toLocaleString()}원</p>
                 </div>
