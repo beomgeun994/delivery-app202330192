@@ -10,6 +10,11 @@ export default function CartPage() {
 
   const handleCheckout = async () => {
     if (cart.length === 0) return;
+    const restaurant = await fetch(`/api/restaurants/${cart[0].restaurant_id}`).then(r => r.json());
+    if (totalPrice < restaurant.min_order) {
+      alert(`최소 주문금액은 ${restaurant.min_order.toLocaleString()}원입니다.`);
+      return;
+    }
     setLoading(true);
 
     const res = await fetch('/api/orders', {
