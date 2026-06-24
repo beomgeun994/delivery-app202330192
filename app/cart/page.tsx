@@ -51,6 +51,9 @@ export default function CartPage() {
       <div className="text-6xl mb-4">🛒</div>
       <p className="text-xl font-black text-gray-900">장바구니가 비어있어요</p>
       <p className="text-gray-400 mt-2 text-sm">맛있는 음식을 담아보세요!</p>
+      <a href="/" className="mt-6 inline-block bg-orange-500 text-white font-black px-6 py-3 rounded-xl hover:bg-orange-600 transition">
+        🏪 식당 보러가기
+      </a>
     </div>
   );
 
