@@ -10,7 +10,7 @@ export default function Navbar({ user }: { user: any }) {
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
     clearCart();
-    router.refresh();
+    router.push('/');
   };
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
