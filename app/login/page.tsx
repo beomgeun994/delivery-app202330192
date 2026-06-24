@@ -59,9 +59,11 @@ export default function LoginPage() {
             </button>
           </form>
           <p className="text-center mt-6 text-sm text-gray-400">
-            계정이 없으신가요?{' '}
-            <Link href="/register" className="text-orange-500 font-bold hover:underline">회원가입</Link>
+            계정이 없으신가요?
           </p>
+          <Link href="/register" className="block w-full mt-2 text-center border-2 border-orange-500 text-orange-500 font-black py-3 rounded-xl hover:bg-orange-50 transition">
+            회원가입하기 →
+          </Link>
         </div>
       </div>
     </div>
