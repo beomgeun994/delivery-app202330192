@@ -11,6 +11,7 @@ export default function Navbar({ user }: { user: any }) {
     await fetch('/api/auth/logout', { method: 'POST' });
     clearCart();
     router.push('/');
+    router.refresh();
   };
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
