@@ -35,11 +35,10 @@ export default function CartPage() {
       })
     });
 
-    if (res.ok) {
-      clearCart();
-      router.push('/orders');
-      router.refresh();
-    } else {
+      if (res.ok) {
+        clearCart();
+        router.push('/order-complete');
+      } else {
       const data = await res.json();
       alert(data.error || '주문 처리 중 오류가 발생했습니다.');
       setLoading(false);
