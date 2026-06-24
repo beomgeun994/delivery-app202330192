@@ -58,7 +58,12 @@ export default function CartPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-8">
-      <h1 className="text-2xl font-black mb-6">🛒 장바구니</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-black">🛒 장바구니</h1>
+        <button onClick={clearCart} className="text-sm text-gray-400 hover:text-red-400 transition font-medium">
+          전체 비우기
+        </button>
+      </div>
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 divide-y divide-gray-50">
         {cart.map((item) => (
           <div key={item.id} className="flex justify-between items-center p-5">
