@@ -74,7 +74,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, totalPrice, toast }}>
       {children}
       {toast && (
-        <div className="fixed bottom-6 right-6 bg-gray-900 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-bold z-50 animate-bounce">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-bold z-50 animate-bounce">
           {toast}
         </div>
       )}
