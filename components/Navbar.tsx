@@ -4,11 +4,12 @@ import { useCart } from './CartProvider';
 import { useRouter } from 'next/navigation';
 
 export default function Navbar({ user }: { user: any }) {
-  const { cart } = useCart();
+  const { cart, clearCart } = useCart();
   const router = useRouter();
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
+    clearCart();
     router.refresh();
   };
 
