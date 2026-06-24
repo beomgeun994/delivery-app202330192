@@ -1,5 +1,4 @@
 'use client';
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export type CartItem = {
@@ -17,36 +16,42 @@ type CartContextType = {
   updateQuantity: (id: number, quantity: number) => void;
   clearCart: () => void;
   totalPrice: number;
+  toast: string | null;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [toast, setToast] = useState<string | null>(null);
 
-  // 로컬 스토리지에서 장바구니 불러오기
   useEffect(() => {
     const saved = localStorage.getItem('cart');
     if (saved) setCart(JSON.parse(saved));
   }, []);
 
-  // 장바구니 변경 시 로컬 스토리지 저장
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }, [cart]);
 
+  const showToast = (message: string) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 2000);
+  };
+
   const addToCart = (item: CartItem) => {
     setCart((prev) => {
-      // 다른 식당의 메뉴를 담을 경우 장바구니 초기화 여부 확인 (여기서는 덮어쓰거나 비움)
       if (prev.length > 0 && prev[0].restaurant_id !== item.restaurant_id) {
         if (!confirm('다른 식당의 메뉴를 담으면 기존 장바구니가 초기화됩니다. 계속하시겠습니까?')) return prev;
+        showToast(`🛒 ${item.name}이(가) 담겼습니다!`);
         return [{ ...item, quantity: 1 }];
       }
-      
       const existing = prev.find((i) => i.id === item.id);
       if (existing) {
+        showToast(`🛒 ${item.name} 수량이 추가됐습니다!`);
         return prev.map((i) => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
       }
+      showToast(`🛒 ${item.name}이(가) 담겼습니다!`);
       return [...prev, { ...item, quantity: 1 }];
     });
   };
@@ -61,12 +66,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const clearCart = () => setCart([]);
-
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, totalPrice }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, totalPrice, toast }}>
       {children}
+      {toast && (
+        <div className="fixed bottom-6 right-6 bg-gray-900 text-white px-5 py-3 rounded-xl shadow-lg text-sm font-bold z-50 animate-bounce">
+          {toast}
+        </div>
+      )}
     </CartContext.Provider>
   );
 }
