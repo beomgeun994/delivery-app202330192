@@ -71,7 +71,7 @@ export default async function OrdersPage() {
                 </div>
 
                 <div className="flex justify-between items-center mt-3 pt-3 border-t border-gray-50">
-                  <p className="text-gray-400 text-sm">주문 #{order.id}</p>
+                  <p className="text-gray-400 text-sm">주문 #{orders.indexOf(order) + 1}</p>
                   <p className="text-orange-500 font-black text-lg">{order.total_price.toLocaleString()}원</p>
                 </div>
               </div>
