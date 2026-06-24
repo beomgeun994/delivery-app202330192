@@ -57,6 +57,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const removeFromCart = (id: number) => {
+    const item = cart.find((i) => i.id === id);
+    if (item) showToast(`🗑️ ${item.name}이(가) 삭제됐습니다.`);
     setCart((prev) => prev.filter((i) => i.id !== id));
   };
 
