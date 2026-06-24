@@ -19,7 +19,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ c
       <div className="bg-orange-500 rounded-3xl p-8 text-white">
         <p className="text-sm font-medium opacity-80">빠르고 맛있는</p>
         <h1 className="text-4xl font-black mt-1">지금 바로 주문하세요 🛵</h1>
-        <p className="mt-2 opacity-80 text-sm">17개 식당 · 즉시 배달</p>
+        <p className="mt-2 opacity-80 text-sm">{restaurants.length}개 식당 · 즉시 배달</p>
       </div>
 
       {/* 카테고리 필터 */}
