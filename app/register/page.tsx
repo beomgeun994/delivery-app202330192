@@ -9,6 +9,10 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (form.password.length < 6) {
+      alert('비밀번호는 6자 이상이어야 합니다.');
+      return;
+    }
     const res = await fetch('/api/auth/register', {
       method: 'POST',
       body: JSON.stringify(form),
