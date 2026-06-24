@@ -31,10 +31,14 @@ export default function CartPage() {
         clearCart();
         router.push('/order-complete');
       } else {
-      const data = await res.json();
-      alert(data.error || '주문 처리 중 오류가 발생했습니다.');
-      setLoading(false);
-    }
+        const data = await res.json();
+        if (res.status === 401) {
+          router.push('/login');
+        } else {
+          alert(data.error || '주문 처리 중 오류가 발생했습니다.');
+          setLoading(false);
+        }
+      }
   };
 
   if (cart.length === 0) return (
