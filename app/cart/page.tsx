@@ -1,20 +1,12 @@
 'use client';
 import { useCart } from '@/components/CartProvider';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function CartPage() {
   const { cart, updateQuantity, removeFromCart, totalPrice, clearCart } = useCart();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-  const checkLogin = async () => {
-    const res = await fetch('/api/auth/me');
-    if (!res.ok) router.push('/login');
-  };
-  checkLogin();
-}, []);
 
   const handleCheckout = async () => {
     if (cart.length === 0) return;
